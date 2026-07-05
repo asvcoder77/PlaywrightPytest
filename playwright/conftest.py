@@ -17,12 +17,19 @@ def browserInstance(playwright,request):
     browser_name = request.config.getoption("browser_name")
     url_name = request.config.getoption("url_name")
     if browser_name == "chrome":
-        browser = playwright.chromium.launch(headless=False)
+        browser = playwright.chromium.launch(headless=True)
     elif browser_name == "firefox":
         browser = playwright.firefox.launch(headless=False)
     context = browser.new_context()
+    context.tracing.start(
+        screenshots=True,
+        snapshots=True,
+        sources=True
+    )
     page = context.new_page()
+
     #page.goto(url_name)
     yield page
+    context.tracing.stop(path="trace.zip")
     context.close()
     browser.close()
