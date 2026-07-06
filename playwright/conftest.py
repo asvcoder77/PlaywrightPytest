@@ -17,7 +17,7 @@ def browserInstance(playwright,request):
     browser_name = request.config.getoption("browser_name")
     url_name = request.config.getoption("url_name")
     if browser_name == "chrome":
-        browser = playwright.chromium.launch(headless=True)
+        browser = playwright.chromium.launch(headless=False)
     elif browser_name == "firefox":
         browser = playwright.firefox.launch(headless=False)
     context = browser.new_context()
